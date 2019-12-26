@@ -4,8 +4,14 @@ import Select from 'react-select';
 
 import Commit from './components/commit';
 import { getDataCommits, getDataBranches } from './services';
+import { ICommit } from 'types/commit'
 
-export default class Home extends Component<{}> {
+type State = {
+  branches: string[],
+  commits: ICommit[],
+}
+
+export default class Home extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -26,15 +32,21 @@ export default class Home extends Component<{}> {
     console.log(this.state)
   }
 
+  selectOption = () => {
+    return this.state.branches.map((el: string) => ({
+      value: el, label: el,
+    }))
+  }
+
   render() {
-    const { branches, commits }: any = this.state;
+    const {commits} = this.state;
     return (
       <WrapperHome>
         <Select
-          defaultValue={branches[0]}
-          options={branches}
+          defaultValue={this.selectOption()[0]}
+          options={this.selectOption()}
         />
-        <Commit commitName={'Commit name'} commitHash={'Commit hash'} />
+        <Commit commits={commits} />
       </WrapperHome>
     )
   }
