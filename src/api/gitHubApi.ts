@@ -1,17 +1,16 @@
 import axios from 'axios';
-import config from 'config'
 
 export const getProjectCommits = (
   branchName: string,
-  userName = config.GIT_USERNAME,
-  projectName = config.GIT_PROJECT_NAME,
+  userName = process.env.REACT_APP_GIT_USERNAME,
+  projectName = process.env.REACT_APP_GIT_PROJECT_NAME,
 ) => {
   return axios.get(`https://api.github.com/repos/${userName}/${projectName}/commits?sha=${branchName}`);
 };
 
 export const getProjectBranches = (
-  userName = config.GIT_USERNAME,
-  projectName = config.GIT_PROJECT_NAME,
+  userName = process.env.REACT_APP_GIT_USERNAME,
+  projectName = process.env.REACT_APP_GIT_PROJECT_NAME,
 ) => {
   return axios.get(`https://api.github.com/repos/${userName}/${projectName}/branches`);
 };
