@@ -267,6 +267,14 @@ export const getProjectBranches = (
                     "url": "https://api.github.com/repos/shabanovgm/testGitHubApi/commits/e08ebcbea7aee179cea2c08ef2f9e6a00c11bf86"
                 },
                 "protected": false
+            },
+            {
+                "name": "test-branch",
+                "commit": {
+                    "sha": "e08ebcbea7aee179cea2c08ef2f9e6a00c11bf86",
+                    "url": "https://api.github.com/repos/shabanovgm/testGitHubApi/commits/e08ebcbea7aee179cea2c08ef2f9e6a00c11bf86"
+                },
+                "protected": false
             }
             ]
         }
