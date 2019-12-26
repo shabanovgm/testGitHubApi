@@ -4,4 +4,4 @@ export interface ICommit {
   authorName: string;
   authorEmail: string;
   date: string;
-}
+};

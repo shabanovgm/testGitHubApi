@@ -2,59 +2,57 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Select, { OptionTypeBase, ActionMeta } from 'react-select';
 import { withRouter } from 'react-router-dom';
-
+import { History, Location } from 'history';
 
 import Commit from './components/commit';
 import { getDataCommits, getDataBranches } from './services';
-import { ICommit } from 'types/commit'
+import { ICommit } from 'types/commit';
+import { iBranch } from 'types/branches';
 
 
 type State = {
-  branches: string[];
+  branches: iBranch[];
   commits: ICommit[];
   branch: OptionTypeBase | null;
 };
+
 interface IHomeProps {
-  location: any;
+  location: Location;
   match: any;
-  history: any;
+  history: History;
 };
 
+
 class Home extends Component<IHomeProps, State> {
-  constructor(props: IHomeProps) {
-    super(props);
-    this.state = {
-      branch: null,
-      branches: [],
-      commits: [],
-    };
+  state = {
+    branch: null,
+    branches: [],
+    commits: [],
   }
 
-  componentDidMount() {
-    this.fetchCommits();
-  }
-
-  fetchCommits = async () => {
+  async componentDidMount() {
     try {
-      const branches = await getDataBranches();
-      const commits = await getDataCommits(branches[0]);
+      const branches: iBranch[] = await getDataBranches();
       this.setState({
-        commits,
         branches,
-        branch: {
-          value: branches[0],
-          label: branches[0],
-        }
       });
-    } catch (error) {
+      this.fetchCommits(branches[0]);
+
+    } catch (err) {
       return this.props.history.push('/error')
     }
   }
 
-  selectOption = () => {
-    return this.state.branches.map((el: string) => ({
-      value: el, label: el,
-    }))
+  fetchCommits = async (currentBranch: iBranch) => {
+    try {
+      const commits = await getDataCommits(currentBranch.value);
+      this.setState({
+        commits,
+        branch: currentBranch,
+      });
+    } catch (error) {
+      return this.props.history.push('/error')
+    }
   }
 
   onChangeBranch = async (branch: OptionTypeBase, actionMeta: ActionMeta) => {
@@ -70,25 +68,24 @@ class Home extends Component<IHomeProps, State> {
   }
 
   render() {
-    const { commits, branch } = this.state;
+    const { commits, branch, branches } = this.state;
     return (
       <WrapperHome>
         <Select
           value={branch}
-          options={this.selectOption()}
+          options={branches}
           onChange={this.onChangeBranch}
         />
+
         <Commit commits={commits} />
       </WrapperHome>
     )
   }
 }
 
-export default withRouter(Home);
-
-
-
 const WrapperHome = styled.section`
   width: 80%;
   margin: 20px auto;
-`
+`;
+
+export default withRouter(Home);

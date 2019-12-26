@@ -6,10 +6,13 @@ export default class ErrorPage extends Component<{}> {
   render() {
     return (
       <Alert variant="danger">
-        <Alert.Heading>Somthing went wrong!</Alert.Heading>
+        <Alert.Heading>
+          Somthing went wrong!
+        </Alert.Heading>
+
         <p>
           User or repo or branch not found
-          </p>
+        </p>
       </Alert>
     )
   }

@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
 const Header: React.FC = () => {
   return (
     <CustomHeader>Commit history</CustomHeader>
   );
-}
-
-export default Header;
+};
 
 const CustomHeader = styled.header`
   height: 50px;
@@ -19,4 +16,6 @@ const CustomHeader = styled.header`
   color: #ffffff;
   font-size: 25px;
   font-weight: bold;
-`
+`;
+
+export default Header;
