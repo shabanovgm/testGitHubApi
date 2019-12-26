@@ -1,8 +1,7 @@
-import { getProjectCommits } from 'api/gitHubApi';
+import { getProjectCommits, getProjectBranches } from 'api/gitHubApi';
 
-export default async () => {
-  const { data } = await getProjectCommits()
-  console.log('data', data)
+export const getDataCommits = async (branchName: string) => {
+  const { data } : any = await getProjectCommits(branchName)
   if (!data) return new Error('No response from GitHub')
   const commits = data.map((el: any) => ({
     hash: el.sha,
@@ -13,3 +12,10 @@ export default async () => {
   }));
   return commits
 } 
+
+export const getDataBranches = async () => {
+  const { data } : any  = await getProjectBranches();
+  if (!data) return new Error('No response from GitHub')
+  const branches = data.map((el: any) => (el.name));
+  return branches;
+};
