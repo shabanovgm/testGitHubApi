@@ -25,7 +25,7 @@ const Commit: React.FunctionComponent<ICommitProps> = (
       </thead>
       <tbody>
         {commits.map((el: ICommit) => (
-          <tr>
+          <tr key={el.hash}>
             <td>{el.hash}</td>
             <td>{el.name}</td>
             <td>{el.authorName}</td>

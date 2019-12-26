@@ -1,8 +1,9 @@
 import { getProjectCommits, getProjectBranches } from 'api/gitHubApi';
+import { ICommit } from 'types/commit';
 
-export const getDataCommits = async (branchName: string) => {
-  const { data } : any = await getProjectCommits(branchName)
-  if (!data) return new Error('No response from GitHub')
+export const getDataCommits = async (branchName: string): Promise<ICommit[]> => {
+  const { data }: any = await getProjectCommits(branchName)
+  if (!data) throw new Error('No response from GitHub')
   const commits = data.map((el: any) => ({
     hash: el.sha,
     name: el.commit.message,
@@ -11,11 +12,11 @@ export const getDataCommits = async (branchName: string) => {
     date: el.commit.author.date,
   }));
   return commits
-} 
+}
 
-export const getDataBranches = async () => {
-  const { data } : any  = await getProjectBranches();
-  if (!data) return new Error('No response from GitHub')
+export const getDataBranches = async (): Promise<string[]> => {
+  const { data }: any = await getProjectBranches();
+  if (!data) throw new Error('No response from GitHub')
   const branches = data.map((el: any) => (el.name));
   return branches;
 };
